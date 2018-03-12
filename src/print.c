@@ -132,6 +132,40 @@ char	*format_s(t_data *info, va_list args, int *count)
 	return (str);
 }
 
+void	ft_putwchar_fd(wchar_t chr, int fd)
+{
+	if (chr <= 0x7F)
+		ft_putchar_fd(chr, fd);
+	else if (chr <= 0x7FF)
+	{
+		ft_putchar_fd((chr >> 6) + 0xC0, fd);
+		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
+	}
+	else if (chr <= 0xFFFF)
+	{
+		ft_putchar_fd((chr >> 12) + 0xE0, fd);
+		ft_putchar_fd(((chr >> 6) & 0x3F) + 0x80, fd);
+		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
+	}
+	else if (chr <= 0x10FFFF)
+	{
+		ft_putchar_fd((chr >> 18) + 0xF0, fd);
+		ft_putchar_fd(((chr >> 12) & 0x3F) + 0x80, fd);
+		ft_putchar_fd(((chr >> 6) & 0x3F) + 0x80, fd);
+		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
+	}
+}
+
+char	*format_big_s(info, args, count)
+{
+	wchar_t		*str;
+
+	str = va_arg(args, wchar_t *);
+	while (*str)
+		ft_wputchar_fd(*str++, 1);
+	return(ft_strdup(""));
+}
+
 char	*format_p(va_list args, int *count)
 {
 	char *str;
@@ -421,8 +455,10 @@ void	print_format(t_data *info, va_list args, int *count)
 {
 	char	*str;
 
-	if (info->specifier == 's' || info->specifier == 'S')
+	if (info->specifier == 's')
 		str = format_s(info, args, count);
+	else if (info->specifier == 'S')
+		str = format_big_s(info, args, count);
 	else if (info->specifier == 'p')
 		str = format_p(args, count);
 	else if (info->specifier == 'd' || info->specifier == 'D' ||
