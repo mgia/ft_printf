@@ -3,57 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ikozlov <ikozlov@student.42.fr>            +#+  +:+       +#+         #
+#    By: mtan <marvin@42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/02/19 13:22:14 by ikozlov           #+#    #+#              #
-#    Updated: 2018/03/07 12:12:42 by ikozlov          ###   ########.fr        #
+#    Created: 2018/02/21 17:49:03 by mtan              #+#    #+#              #
+#    Updated: 2018/03/08 10:29:52 by mtan             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
 NAME = libft.a
+FILES = $(wildcard *.c)
 
-# directories
-SRC_DIR = srcs/
-INC_DIR = includes/
-OBJ_DIR = obj/
-BASIC_DIR = basic/
-CHAR_DIR = chars/
-NUMBERS_DIR = numbers/
-STRINGS_DIR = strings/
-MATH_DIR = math/
-
-# compiler
-CFLAGS = -Wall -Wextra -Werror
-INCLUDES = $(INC_DIR)
-
-# files
-SRC := $(wildcard $(SRC_DIR)$(BASIC_DIR)*.c)
-SRC += $(wildcard $(SRC_DIR)$(CHAR_DIR)*.c)
-SRC += $(wildcard $(SRC_DIR)$(NUMBERS_DIR)*.c)
-SRC += $(wildcard $(SRC_DIR)$(MATH_DIR)*.c)
-SRC += $(wildcard $(SRC_DIR)$(STRINGS_DIR)*.c)
-OBJ := $(notdir $(SRC))
-OBJ := $(patsubst %, $(OBJ_DIR)%, $(OBJ:.c=.o))
+OBJECTS = $(FILES:%.c=%.o)
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@ar rc $(NAME) $(OBJ)
+$(NAME):
+	@gcc -Wall -Wextra -Werror -c $(FILES) -I ./includes
+	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
 
-$(OBJ): $(SRC)
-	@mkdir -p $(OBJ_DIR)
-	@gcc -Wall -Wextra -Werror -I $(INCLUDES) -c $^
-	@mv *.o $(OBJ_DIR)
-
 clean:
-	@/bin/rm -rf $(OBJ_DIR)
-	@echo "[INFO] Object folder removed"
+	@/bin/rm -f $(OBJECTS)
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@echo "[INFO] Library removed"
 
 re: fclean all

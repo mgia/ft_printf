@@ -4,10 +4,12 @@
 char	*pad_left(char *str, int n, char c)
 {
 	int		i;
+	int		j;
 	int		len;
 	char	*tmp;
 
 	i = 0;
+	j = 0;
 	len = ft_strlen(str);
 	if (n <= len)
 		return (str);
@@ -15,25 +17,29 @@ char	*pad_left(char *str, int n, char c)
 	while (i < (n - len))
 		tmp[i++] = c;
 	while (i < n)
-		tmp[i++] = *str++;
+		tmp[i++] = str[j++];
+	// free(str);
 	return (tmp);
 }
 
 char	*pad_right(char *str, int n, char c)
 {
 	int		i;
+	int		j;
 	int		len;
 	char	*tmp;
 
 	i = 0;
+	j = 0;
 	len = ft_strlen(str);
 	if (n <= len)
 		return (str);
 	tmp = ft_strnew(n);
-	while (*str)
-		tmp[i++] = *str++;
+	while (str[j])
+		tmp[i++] = str[j++];
 	while (i < n)
 		tmp[i++] = c;
+	// free(str);
 	return (tmp);
 }
 
@@ -48,10 +54,9 @@ char	*slice_left(char *str, int n)
 	if (n >= len)
 		return ("");
 	tmp = ft_strnew(len - n);
-	while (n--)
-		str++;
-	while (*str)
-		tmp[i++] = *str++;
+	while (str[n])
+		tmp[i++] = str[n++];
+	// free(str);
 	return (tmp);
 }
 
@@ -67,7 +72,11 @@ char	*slice_right(char *str, int n)
 		return ("");
 	tmp = ft_strnew(len - n);
 	while (i < (len - n))
-		tmp[i++] = *str++;
+	{
+		tmp[i] = str[i];
+		i++;
+	}
+	// free(str);
 	return (tmp);
 }
 

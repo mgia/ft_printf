@@ -130,6 +130,7 @@ void	parse_length(t_data *info, char **format)
 		info->length = ft_strdup(tmp);
 		*format += i;
 	}
+	free(ref);
 	free(tmp);
 }
 

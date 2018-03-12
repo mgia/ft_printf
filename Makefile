@@ -8,7 +8,7 @@ LIBFT = libft
 
 # directories
 OBJ_DIR = obj/
-SRC_DIR = srcs/
+SRC_DIR = src/
 INC_DIR = includes/
 LIBFT_DIR = libft/
 
@@ -47,5 +47,11 @@ fclean: clean
 	@echo "[INFO] Libftprintf executable removed."
 
 re: fclean all
+
+test: re
+	@$(CC) $(FLAGS) $(INCLUDES) $(NAME) main.c
+
+f:
+	@$(CC) $(FLAGS) $(INCLUDES) $(NAME) main.c
 
 .PHONY: all clean fclean re $(NAME)
