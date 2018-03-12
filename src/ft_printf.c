@@ -12,7 +12,7 @@ int		ft_printf(char *format, ...)
 		if (*format == '%')
 		{
 			// printf("\nbefore enter: %d\n",count);
-			handle_mod(&format, list, &count);
+			// handle_mod(&format, list, &count);
 		}
 		else
 		{
