@@ -88,40 +88,42 @@ char	*slice_right(char **str, int n)
 	return (tmp);
 }
 
-char	*get_s(t_data *info, va_list args)
-{
-	char	*str;
-	wchar_t	*tmp;
-	int		len;
-
-	if (info->specifier == 'S' || ft_strequ(info->length, "l"))
-	{
-		len = 0;
-		tmp = va_arg(args, wchar_t *);
-		while (tmp[len])
-			len++;
-		len = 0;
-		str = ft_strnew(len);
-		while (*tmp)
-			str[len++] = *tmp++;
-	}
-	else
-	{
-		str = va_arg(args, char *);
-		return (str ? ft_strdup(str) : NULL);
-	}
-
-	return (str);
-}
+// char	*get_s(t_data *info, va_list args)
+// {
+// 	char	*str;
+// 	wchar_t	*tmp;
+// 	int		len;
+//
+// 	if (info->specifier == 'S' || ft_strequ(info->length, "l"))
+// 	{
+// 		len = 0;
+// 		tmp = va_arg(args, wchar_t *);
+// 		while (tmp[len])
+// 			len++;
+// 		len = 0;
+// 		str = ft_strnew(len);
+// 		while (*tmp)
+// 			str[len++] = *tmp++;
+// 	}
+// 	else
+// 	{
+// 		str =
+// 		return (str ? ft_strdup(str) : NULL);
+// 	}
+//
+// 	return (str);
+// }
 
 char	*format_s(t_data *info, va_list args, int *count)
 {
 	char	*str;
 	int		len;
 
-	str = get_s(info, args);
+	str = va_arg(args, char *);
 	if (!str)
 		return (ft_strdup("(null)"));
+	else
+		str = ft_strdup(str);
 	len = ft_strlen(str);
 	if (info->dot && info->precision < len)
 		str = slice_right(&str, len - info->precision);
@@ -132,41 +134,57 @@ char	*format_s(t_data *info, va_list args, int *count)
 	return (str);
 }
 
-void	ft_putwchar_fd(wchar_t chr, int fd)
-{
-	if (chr <= 0x7F)
-		ft_putchar_fd(chr, fd);
-	else if (chr <= 0x7FF)
-	{
-		ft_putchar_fd((chr >> 6) + 0xC0, fd);
-		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
-	}
-	else if (chr <= 0xFFFF)
-	{
-		ft_putchar_fd((chr >> 12) + 0xE0, fd);
-		ft_putchar_fd(((chr >> 6) & 0x3F) + 0x80, fd);
-		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
-	}
-	else if (chr <= 0x10FFFF)
-	{
-		ft_putchar_fd((chr >> 18) + 0xF0, fd);
-		ft_putchar_fd(((chr >> 12) & 0x3F) + 0x80, fd);
-		ft_putchar_fd(((chr >> 6) & 0x3F) + 0x80, fd);
-		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
-	}
-}
+// void	ft_putwchar_fd(wchar_t chr, int fd)
+// {
+// 	if (chr <= 0x7F)
+// 		ft_putchar_fd(chr, fd);
+// 	else if (chr <= 0x7FF)
+// 	{
+// 		ft_putchar_fd((chr >> 6) + 0xC0, fd);
+// 		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
+// 	}
+// 	else if (chr <= 0xFFFF)
+// 	{
+// 		ft_putchar_fd((chr >> 12) + 0xE0, fd);
+// 		ft_putchar_fd(((chr >> 6) & 0x3F) + 0x80, fd);
+// 		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
+// 	}
+// 	else if (chr <= 0x10FFFF)
+// 	{
+// 		ft_putchar_fd((chr >> 18) + 0xF0, fd);
+// 		ft_putchar_fd(((chr >> 12) & 0x3F) + 0x80, fd);
+// 		ft_putchar_fd(((chr >> 6) & 0x3F) + 0x80, fd);
+// 		ft_putchar_fd((chr & 0x3F) + 0x80, fd);
+// 	}
+// }
 
 char	*format_big_s(t_data *info, va_list args, int *count)
 {
 	wchar_t		*str;
+	char		*tmp;
+	int			len;
+	int			i;
 
-	str = va_arg(args, wchar_t *);
-	while (*str)
+	str = (wchar_t *)va_arg(args, void *);
+	len = 0;
+	i = 0;
+	if (!str)
+		return (ft_strdup("(null)"));
+	while (str[len++])
+		len++;
+	tmp = malloc(len + 1);
+	while (i < len)
 	{
-		ft_putwchar_fd(*str++, 1);
-		(*count)++;
+		tmp[i] = str[i];
+		i++;
 	}
-	return(ft_strdup(""));
+	if (info->dot && info->precision < len)
+		tmp = slice_right(&tmp, len - info->precision);
+	if (!info->minus)
+		tmp = pad_left(&tmp, info->width, ' ');
+	else
+		tmp = pad_right(&tmp, info->width, ' ');
+	return (tmp);
 }
 
 char	*format_p(va_list args, int *count)
@@ -290,7 +308,7 @@ static char	*format_u_2(t_data *info, char	*str)
 	{
 		if (!info->precision)
 		{
-			if (ft_strcmp(str, "0"))
+			if (ft_strequ(str, "0"))
 				return (ft_strdup(""));
 			str[0] = '\0';
 		}
@@ -458,10 +476,11 @@ void	print_format(t_data *info, va_list args, int *count)
 {
 	char	*str;
 
-	if (info->specifier == 's')
-		str = format_s(info, args, count);
-	else if (info->specifier == 'S')
+	if (info->specifier == 'S' || (info->specifier == 's'
+		&& ft_strequ(info->length, "l")))
 		str = format_big_s(info, args, count);
+	else if (info->specifier == 's')
+		str = format_s(info, args, count);
 	else if (info->specifier == 'p')
 		str = format_p(args, count);
 	else if (info->specifier == 'd' || info->specifier == 'D' ||
