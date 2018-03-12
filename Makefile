@@ -49,9 +49,9 @@ fclean: clean
 re: fclean all
 
 test: re
-	@$(CC) $(FLAGS) $(INCLUDES) $(NAME) main.c
+	@$(CC) $(FLAGS) -g $(INCLUDES) $(NAME) main.c
 
 f:
-	@$(CC) $(FLAGS) $(INCLUDES) $(NAME) main.c
+	@$(CC) $(FLAGS) -g $(INCLUDES) $(NAME) main.c
 
 .PHONY: all clean fclean re $(NAME)

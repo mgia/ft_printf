@@ -187,4 +187,6 @@ void	handle_mod(char **format, va_list args, int *count)
 	// check_info(info);
 	print_format(info, args, count);
 	*format = ptr;
+	free(info->length);
+	free(info);
 }
