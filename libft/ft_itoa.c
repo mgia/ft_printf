@@ -57,31 +57,3 @@ char		*ft_itoa(long long int n)
 	}
 	return (ret);
 }
-// char	*ft_itoa(int n)
-// {
-// 	size_t	len;
-// 	char	*str;
-// 	size_t	i;
-//
-// 	i = 0;
-// 	if (n == -2147483648)
-// 		return (ft_strdup("-2147483648"));
-// 	len = ft_nbrlen(n);
-// 	if (n < 0)
-// 	{
-// 		len++;
-// 		n = -n;
-// 		i = 1;
-// 	}
-// 	if (!(str = (char*)malloc(sizeof(char) * len + 1)))
-// 		return (NULL);
-// 	str[len] = '\0';
-// 	while (len--)
-// 	{
-// 		str[len] = n % 10 + '0';
-// 		n /= 10;
-// 	}
-// 	if (i == 1)
-// 		str[0] = '-';
-// 	return (str);
-// }

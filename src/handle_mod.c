@@ -44,24 +44,16 @@ int		check_flags(t_data *info, char **format)
 
 void	parse_flags(t_data *info, char **format)
 {
-	// char	*ptr;
-    //
-	// ptr = *format;
 	while (check_flags(info, format))
 		(*format)++;
-	// *format = ptr;
 }
 
 void	parse_width(t_data *info, char **format)
 {
-	char	*ptr;
-
-	ptr = *format;
-	if (ft_isdigit(*ptr))
-		info->width = ft_atoi(ptr);
-	while (ft_isdigit(*ptr))
-		ptr++;
-	*format = ptr;
+	if (ft_isdigit(**format))
+		info->width = ft_atoi(*format);
+	while (ft_isdigit(**format))
+		(*format)++;
 }
 
 void	parse_precision(t_data *info, char **format)
@@ -82,7 +74,7 @@ void	parse_precision(t_data *info, char **format)
 	*format = ptr;
 }
 
-void	init_types(char **modifier)
+static void	init_types(char **modifier)
 {
 	modifier[0] = "hh";
 	modifier[1] = "h";
@@ -97,7 +89,7 @@ char		**init_length_specifiers(void)
 	char	**tmp;
 
 	tmp = malloc(sizeof(char**) * (6 + 1));
-	tmp[7] = 0;
+	tmp[6] = 0;
 	init_types(tmp);
 	return (tmp);
 }
@@ -113,12 +105,21 @@ int		check_length(char **ref, char *str)
 	return (0);
 }
 
+// int		check_length(char *str)
+// {
+// 	if (ft_strstr(str, "ll"))
+// 		return (1);
+// 	return (0);
+// }
+
 void	parse_length(t_data *info, char **format)
 {
 	char	**ref;
 	char	*tmp;
 	int		i;
 
+	if (!(*format))
+		return ;
 	i = 0;
 	ref = init_length_specifiers();
 	tmp = ft_strdup(*format);
@@ -130,6 +131,8 @@ void	parse_length(t_data *info, char **format)
 		info->length = ft_strdup(tmp);
 		*format += i;
 	}
+	else
+		info->length = ft_strdup("");
 	free(ref);
 	free(tmp);
 }
@@ -138,7 +141,7 @@ int		check_specifier(char c)
 {
 	char	*list = "sSpdDioOuUxXcC%";
 	int		i;
-	// printf("char that comes in: %c\n", c);
+
 	i = -1;
 	while (list[++i])
 		if (list[i] == c)
@@ -184,9 +187,9 @@ void	handle_mod(char **format, va_list args, int *count)
 	parse_precision(info, &ptr);
 	parse_length(info, &ptr);
 	parse_specifier(info, &ptr);
-	// check_info(info);
 	print_format(info, args, count);
 	*format = ptr;
-	free(info->length);
+	// if (!ft_strequ(info->length, ""))
+		free(info->length);
 	free(info);
 }

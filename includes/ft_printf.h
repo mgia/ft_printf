@@ -24,10 +24,10 @@ int				ft_printf(char *format, ...);
 
 void			handle_mod(char **format, va_list args, int *count);
 t_data			*init_data();
-void			init_types(char **modifier);
+// static void			init_types(char **modifier);
 char			**init_length_specifers(void);
 
-int				check_length(char **ref, char *str);
+// int				check_length(char **ref, char *str);
 int				check_specifier(char c);
 void			check_info(t_data *info);
 

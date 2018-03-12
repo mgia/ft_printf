@@ -3,6 +3,7 @@ NAME = libftprintf.a
 # compiler
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
+DEBUG = -g
 
 LIBFT = libft
 
@@ -33,7 +34,7 @@ $(NAME): $(OBJ)
 
 $(OBJ): $(SRC)
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $^
+	@$(CC) $(CFLAGS) $(DEBUG) $(INCLUDES) -c $^
 	@mv -f *.o $(OBJ_DIR)
 
 clean:
@@ -49,9 +50,9 @@ fclean: clean
 re: fclean all
 
 test: re
-	@$(CC) $(FLAGS) -g $(INCLUDES) $(NAME) main.c
+	@$(CC) $(FLAGS) $(DEBUG) $(INCLUDES) $(NAME) main.c
 
 f:
-	@$(CC) $(FLAGS) -g $(INCLUDES) $(NAME) main.c
+	@$(CC) $(FLAGS) $(DEBUG) $(INCLUDES) $(NAME) main.c
 
 .PHONY: all clean fclean re $(NAME)
