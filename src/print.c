@@ -156,13 +156,16 @@ void	ft_putwchar_fd(wchar_t chr, int fd)
 	}
 }
 
-char	*format_big_s(info, args, count)
+char	*format_big_s(t_data *info, va_list args, int *count)
 {
 	wchar_t		*str;
 
 	str = va_arg(args, wchar_t *);
 	while (*str)
-		ft_wputchar_fd(*str++, 1);
+	{
+		ft_putwchar_fd(*str++, 1);
+		(*count)++;
+	}
 	return(ft_strdup(""));
 }
 
