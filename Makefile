@@ -8,13 +8,13 @@ LIBFT = libft
 
 # directories
 OBJ_DIR = obj/
-SRC_DIR = src/
+SRC_DIR = srcs/
 INC_DIR = includes/
 LIBFT_DIR = libft/
 
 # files
-SRC_FILES = ft_printf.c
-# SRC_FILES = $(notdir $(wildcard $(SRC_DIR)*.c))
+# SRC_FILES = ft_printf.c
+SRC_FILES = $(notdir $(wildcard $(SRC_DIR)*.c))
 OBJ_FILES = $(SRC_FILES:%.c=%.o)
 
 # full path
