@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/12 17:02:24 by mtan              #+#    #+#             */
+/*   Updated: 2018/03/12 17:02:38 by mtan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int		check_flags(t_data *info, char **format)
+int			check_flags(t_data *info, char **format)
 {
 	if (**format == '#')
 		info->hex = 1;
@@ -17,7 +29,7 @@ int		check_flags(t_data *info, char **format)
 	return (1);
 }
 
-int		check_length(char **ref, char *str)
+int			check_length(char **ref, char *str)
 {
 	while (*ref)
 	{
@@ -28,10 +40,10 @@ int		check_length(char **ref, char *str)
 	return (0);
 }
 
-int		check_specifier(char c)
+int			check_specifier(char c)
 {
-	char	*list = "sSpdDioOuUxXcC%";
-	int		i;
+	static char	*list = "sSpdDioOuUxXcC%";
+	int			i;
 
 	i = -1;
 	while (list[++i])
@@ -76,7 +88,7 @@ uintmax_t	get_unsigned(t_data *info, va_list args)
 		num = va_arg(args, unsigned int) & 0xFFFF;
 	else if (ft_strequ(info->length, "hh"))
 		num = va_arg(args, unsigned int) & 0xFF;
- 	else if (ft_strequ(info->length, "z"))
+	else if (ft_strequ(info->length, "z"))
 		num = va_arg(args, size_t);
 	else if (ft_strequ(info->length, "j"))
 		num = va_arg(args, uintmax_t);

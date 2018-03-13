@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/12 17:02:24 by mtan              #+#    #+#             */
+/*   Updated: 2018/03/12 17:02:38 by mtan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	ft_strupper(char *str)
@@ -69,9 +81,9 @@ char	*format_c(t_data *info, va_list args, int *count)
 	str = ft_strnew(1);
 	if (info->specifier == 'C' || ft_strequ(info->length, "l") ||
 			ft_strequ(info->length, "ll"))
-			c = va_arg(args, wchar_t);
-		else
-			c = (char)va_arg(args, void *);
+		c = va_arg(args, wchar_t);
+	else
+		c = (char)va_arg(args, void *);
 	if (!c)
 	{
 		format_null(info, count);

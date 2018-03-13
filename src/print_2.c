@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtan <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/12 17:02:24 by mtan              #+#    #+#             */
+/*   Updated: 2018/03/12 17:02:38 by mtan             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-char	*format_d(t_data *info, va_list args, int *count)
+char		*format_d(t_data *info, va_list args, int *count)
 {
 	intmax_t	num;
-	char	*str;
-	int		p;
+	char		*str;
+	int			p;
 
 	num = get_signed(info, args);
 	p = (num < 0 || info->plus || info->space) ? 1 : 0;
@@ -28,7 +40,7 @@ char	*format_d(t_data *info, va_list args, int *count)
 	return (str);
 }
 
-static char	*format_u_2(t_data *info, char	*str)
+static char	*format_u_2(t_data *info, char *str)
 {
 	int		len;
 
@@ -56,7 +68,7 @@ static char	*format_u_2(t_data *info, char	*str)
 	return (str);
 }
 
-char	*format_u(t_data *info, va_list args, int *count)
+char		*format_u(t_data *info, va_list args, int *count)
 {
 	char		*str;
 
@@ -65,11 +77,11 @@ char	*format_u(t_data *info, va_list args, int *count)
 	return (str);
 }
 
-char	*format_o(t_data *info, va_list args, int *count)
+char		*format_o(t_data *info, va_list args, int *count)
 {
 	uintmax_t	num;
-	char	*str;
-	int		p;
+	char		*str;
+	int			p;
 
 	num = get_unsigned(info, args);
 	p = (info->hex) ? 1 : 0;
@@ -86,7 +98,7 @@ char	*format_o(t_data *info, va_list args, int *count)
 	if (!info->minus && info->zero)
 		str = pad_left(&str, info->width, '0');
 	if (info->hex && num)
-			str = ft_strjoin("0", &str);
+		str = ft_strjoin("0", &str);
 	if (info->minus)
 		str = pad_right(&str, info->width, ' ');
 	else
