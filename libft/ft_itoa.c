@@ -12,7 +12,6 @@
 
 #include "libft.h"
 
-
 static int	str_len(long long int n)
 {
 	int i;

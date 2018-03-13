@@ -20,24 +20,58 @@ typedef struct	s_data
 	char	specifier;
 }				t_data;
 
-int				ft_printf(char *format, ...);
+/*
+**	Main functions
+*/
 
-void			handle_mod(char **format, va_list args, int *count);
-t_data			*init_data();
-// static void			init_types(char **modifier);
-char			**init_length_specifers(void);
+int		ft_printf(char *format, ...);
+void	handle_mod(char **format, va_list args, int *count);
+void	print_format(t_data *info, va_list args, int *count);
 
-// int				check_length(char **ref, char *str);
-int				check_specifier(char c);
-void			check_info(t_data *info);
+/*
+**	Parsers
+*/
+void	parse_flags(t_data *info, char **format);
+void	parse_width(t_data *info, char **format);
+void	parse_precision(t_data *info, char **format);
+void	parse_length(t_data *info, char **format);
+void	parse_specifier(t_data *info, char **format);
 
-void			parse_flags(t_data *info, char **format);
-void			parse_width(t_data *info, char **format);
-void			parse_precision(t_data *info, char **format);
-void			parse_length(t_data *info, char **format);
-void			parse_specifier(t_data *info, char **format);
+/*
+**	Printers
+*/
 
-char			*get_hex(t_data *info, long num, int *len);
-void			print_format(t_data *info, va_list args, int *count);
+char	*format_s(t_data *info, va_list args, int *count);
+char	*format_big_s(t_data *info, va_list args, int *count);
+char	*format_p(va_list args, int *count);
+char	*format_d(t_data *info, va_list args, int *count);
+char	*format_u(t_data *info, va_list args, int *count);
+char	*format_o(t_data *info, va_list args, int *count);
+char	*format_x(t_data *info, va_list args, int *count);
+int		format_null(t_data *info, int *count);
+char	*format_c(t_data *info, va_list args, int *count);
+char	*format_mod(t_data *info, int *count);
+
+/*
+**	Utilities
+*/
+
+char		*pad_left(char **str, int n, char c);
+char		*pad_right(char **str, int n, char c);
+char		*slice_left(char **str, int n);
+char		*slice_right(char **str, int n);
+void		ft_strupper(char *str);
+
+/*
+**	Helpers
+*/
+
+t_data		*init_data(void);
+char		**init_length_specifiers(void);
+int			check_flags(t_data *info, char **format);
+int			check_length(char **ref, char *str);
+int			check_specifier(char c);
+intmax_t	get_signed(t_data *info, va_list args);
+uintmax_t	get_unsigned(t_data *info, va_list args);
 
 #endif
