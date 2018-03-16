@@ -17,18 +17,18 @@ make
 
 To use this static library, include it in your header file and during compilation time.
 
-Add the following include in your header.h or in your file ⇣
+Add the following include in your header.h or in your file :
 ```
 #include "ft_printf.h"
 ```
-followed by the command to compile ⇣
+Followed by the command to compile :
 ```
 gcc -I includes -o [Name] [Source files].c -L. -lftprintf
 ```
-And execute it easily ⇣
+And execute the program :
 ```
 ./a.out
 ```
 
-Score
+Score <br/>
 `100/100`
