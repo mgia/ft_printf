@@ -30,5 +30,5 @@ And execute the program :
 ./a.out
 ```
 
-Score <br/>
+## Score
 `100/100`
